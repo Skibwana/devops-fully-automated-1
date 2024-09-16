@@ -1,32 +1,3 @@
-<!-- <!DOCTYPE html>
-<html lang="en">
-<head>
-<title>Page Title</title>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<style>
-/* Header/logo Title */
-.header {
-  padding: 80px;
-  text-align: center;
-  background: #E97777;
-  color: white;
-}
-/* Increase the font size of the heading */
-.header h1 {
-  font-size: 50px;
-}
-</style>
-</head>
-<body>
-<div class="header">
-  <h1>Hello JJ Tech Family !!!</h1>
-  <p>This Java Web Application Was Deployed Using CI/CD</p>
-  
-</div>
-</body>
-</html> -->
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -66,11 +37,11 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
           <hr>
 
           <p class="w3-large"><strong><em class="fa fa-asterisk fa-fw w3-margin-right w3-text-teal"></em>Skills</strong></p>
-          <p>Adobe Photoshop</p>
+          <p>Cooking</p>
           <div class="w3-light-grey w3-round-xlarge w3-small">
             <div class="w3-container w3-center w3-round-xlarge w3-teal" style="width:90%">90%</div>
           </div>
-          <p>Photography</p>
+          <p>Dancing</p>
           <div class="w3-light-grey w3-round-xlarge w3-small">
             <div class="w3-container w3-center w3-round-xlarge w3-teal" style="width:80%">
               <div class="w3-center w3-text-white">80%</div>

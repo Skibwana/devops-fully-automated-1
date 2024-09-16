@@ -13,7 +13,7 @@
 
 2) ###### Jenkins/Maven/Ansible
     - Create an **Amazon Linux 2 VM** instance and call it "Jenkins"
-    - Instance type: t2.large
+    - Instance type: t2.medium
     - Security Group (Open): 8080, 9100 and 22 to 0.0.0.0/0
     - Key pair: Select or create a new keypair
     - **Attach Jenkins server with IAM role having "AdministratorAccess"**
@@ -38,13 +38,13 @@
     - Launch Instance
 
 5) ###### EC2 (Dev/Stage/Prod)
-    - Create 6 **Amazon Linux 2** VM instances
+    - Create 3 **Amazon Linux 2** VM instances
     - Instance type: t2.micro
     - Security Group (Open): 8080, 9100 and 22 to 0.0.0.0/0
     - Key pair: Select or create a new keypair
     - User data (Copy the following user data): https://github.com/cvamsikrishna11/devops-fully-automated/blob/installations/deployment-servers-setup.sh
     - Launch Instance
-    - After launching this Jenkins servers, attach a tag as **Key=Environment, value=dev/stage/prod** ( out of 6, each 2 instances could be tagges as one env)
+    - After launching this Jenkins servers, attach a tag as **Key=Environment, value=dev/stage/prod** ( out of 3, each 1 instances could be tagges as one env)
 
 6) ###### Prometheus
     - Create Amazon Linux 2 VM instance and call it "Prometheus"
@@ -62,9 +62,9 @@
     - Key pair: Select or create a new keypair
     - User data (Copy the following user data): https://github.com/cvamsikrishna11/devops-fully-automated/blob/installations/grafana-setup.sh
     - Launch Instance
-
-8) ###### Slack 
-    - **Join the slack channel https://join.slack.com/t/devopsfullyau-r0x2686/shared_invite/zt-1nzxt7e9z-ChDASWBOysUpa3tH5gi95A**
+  
+8) ###### Slack workspace invite and configuring the token
+    - **Join the slack channel [https://join.slack.com/t/devopsfullyau-r0x2686/shared_invite/zt-2f3yg9d5j-MsoN693CXmRgFQWHXPxbmw](https://join.slack.com/t/devopsfullyau-r0x2686/shared_invite/zt-2f3yg9d5j-MsoN693CXmRgFQWHXPxbmw)**
     - **Join into the channel "#team-devops"**
     - Generate Team Subdomain & Integration Token Credential ID (workspace --> channel --> drop-down --> integrations --> Add an App --> Jenkins CI --> Click on Install/View --> Configuration --> Add to Slack --> Select Channel #team-devops --> Store Team subdomain & Integration Token Credential ID which can be used later on)
 
@@ -84,13 +84,14 @@
 
 2)  #### Plugin installations:
     - Click on "Manage Jenkins"
-    - Click on "Plugin Manager"
-    - Click "Available"
+    - Click on "Plugins"
+    - Click "Available plugins"
     - Search and Install the following Plugings "Install Without Restart"
         - **SonarQube Scanner**
         - **Prometheus metrics**
         - **CloudBees Disk Usage Simple**
         - **Slack Notification**
+        - **Test Results Analyzer**
     - Once all plugins are installed, select **Restart Jenkins when installation is complete and no jobs are running**
 
 
@@ -106,26 +107,14 @@
     - Save
 
 
-4)  #### Global tools configuration:
-    - Click on Manage Jenkins --> Global Tool Configuration
-
-        **JDK** --> Add JDK --> Make sure **Install automatically** is enabled --> 
-        
-        **Note:** By default the **Install Oracle Java SE Development Kit from the website** make sure to close that option by clicking on the image as shown below.
-
-        ![JDKSetup!](https://github.com/cvamsikrishna11/devops-fully-automated/blob/main/jdk_setup.png)
-
-        * Click on Add installer
-        * Select Extract *.zip/*.tar.gz --> Fill the below values
-        * Name: **localJdk**
-        * Download URL for binary archive: **https://download.java.net/java/GA/jdk11/13/GPL/openjdk-11.0.1_linux-x64_bin.tar.gz**
-        * Subdirectory of extracted archive: **jdk-11.0.1**
+4)  #### Tools configuration:
+    - Click on Manage Jenkins --> Tools
     - **Maven** --> Add Maven --> Make sure **Install automatically** is enabled --> Install from Apache --> Fill the below values
         * Name: **localMaven**
         * Version: Keep the default version as it is 
 
 5)  #### Credentials setup(SonarQube, Nexus, Ansible, Slack):
-    - Click on Manage Jenkins --> Manage Credentials --> Global credentials (unrestricted) --> Add Credentials
+    - Click on Manage Jenkins --> Credentials --> System --> Global credentials (unrestricted) --> Add Credentials
 
         1)  ###### SonarQube secret token (sonarqube-token)
             - Kind: Secret text :
@@ -161,6 +150,7 @@
         4)  ###### Slack secret token (slack-token)
             - Kind: Secret text            
             - Secret: Place the Integration Token Credential ID (Note: Generate for slack setup)
+            - Token: HQybimSlImgkuJbc2YnQhuwI
             - ID: slack-token
             - Description: slack-token
             - Click on Create                 
@@ -168,21 +158,21 @@
     
 6)  #### Configure system:    
 
-        1)  - Click on Manage Jenkins --> Global Tool Configuration
+        1)  - Click on Manage Jenkins --> System
             - Go to section SonarQube servers --> **Add SonarQube **
             - Name: **SonarQube**
             - Server URL: http://REPLACE-WITH-SONARQUBE-SERVER-PRIVATE-IP:9000          (replace SonarQube privat IP here)
-            - Click on Save    
+            - Click on Save
 
-        2)  - Click on Manage Jenkins --> Configure System
+        2)  - Click on Manage Jenkins --> System
             - Go to section Prometheus
             - Collecting metrics period in seconds: **15**
             - Click on Save
 
-        3)  - Click on Manage Jenkins --> Configure System
+        3)  - Click on Manage Jenkins --> System
             - Go to section Slack
             - Use new team subdomain & integration token credentials created in the above slack joining step
-            - Workspace: **Replace with Team Subdomain value** (created above)
+            - Workspace: devopsfullyau-r0x2686 (created in the jenkins and slack integration step earlier)
             - Credentials: select the slack-token credentials (created above) 
             - Default channel / member id: #general
             - Click on Save  
@@ -332,4 +322,6 @@ Once both the above steps are done click on Save.
 
 
 ## Finally observe the whole flow and understand the integrations :) 
+    By Access the dev/stage or prod servers in a seperate tab replace-public-ip:8080/webapp
 # Happy learning, everyone! 😊 😊
+Cheers! Vamsi Chunnduru
